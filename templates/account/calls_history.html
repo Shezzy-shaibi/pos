@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+    IP Authentication
+{% endblock %}
+{% block content %}
+ <div class="container">
+
+         {%if request.site.domain == 'www.switch2voip.us'%}
+     {% include 'account/base.html'%}
+{%else%}
+      {% include 'berry_account/base.html'%}
+{%endif%}
+
+<div class= "" style=" padding:10px; background-color: {%if request.site.domain == 'www.switch2voip.us'%}#0480b3{%else%}#ff3333{%endif%}; color:white;border-radius:4px">
+    <p class=" h5 text-white m-1">View Call History CDR</p>
+    </div>
+<div class="border bg-white" style="border-radius:5px">
+     <form action="" method="post">
+  {% csrf_token%}
+
+  <div class="row m-3">
+    <div class="col">
+
+    <label for="party"><h5><strong>From</strong></h5></label>
+    <input class=" p-2" id="party" style="background-color:whitesmoke;border-radius:4px"  type="datetime-local" name="startdate">
+
+      </div>
+      <div class="col">
+        <label for="party"><h5><strong>To</strong></h5></label>
+        <input class="p-2" id="party" style="background-color:whitesmoke;border-radius:4px" type="datetime-local" name="enddate">
+
+        </div>
+
+        <div class="col">
+          <button type="submit" class="btn btn-danger">Search</button>
+          </div>
+    </div>
+
+ </form>
+
+
+<div class=" border m-3" style="background-color:whitesmoke; border-radius:4px">
+  <br>
+  <div class="mx-3">
+<table  class=" table borderless text-center " style="padding:0px; font-size:16px; background-color:white">
+
+                    <thead class="  border" style="border-radius:4px">
+                        <tr style="font-size:13px;">
+                            <th  scope="col"><p class="h6"><strong>Caller ID</strong></p></th>
+                            <th scope="col"><p class="h6"><strong>Caller IP</strong></p></th>
+                            <th scope="col"><p class="h6"><strong>Called Number</strong></p></th>
+                            <th scope="col"><p class="h6"><strong>Start Time</strong></p></th>
+                            <th scope="col"><p class="h6"><strong>Duration</strong></p></th>
+                             <th scope="col"><p class="h6"><strong>Call Cost</strong></p></th>
+                             <th scope="col"><p class="h6"><strong>End Reason</strong></p></th>
+                        </tr>
+                    </thead>
+                            <tbody class=" border" style="border-radius:4px">
+        {% for call in user_sippy_callshistory %}
+
+                        <tr style="font-size:16px;">
+
+                            <td>
+
+                                 <p style="font-size:14px;">{{call.call_id}} </p>
+
+                                 </td>
+                              <td>
+
+                                  <p style="font-size:14px;">{{call.remote_ip}}</p>
+                              </td>
+
+                            <td>
+
+                                <p style="font-size:14px;">{{call.call_number}}</p>
+                            </td>
+                            <td>
+
+                                <p style="font-size:14px;">{{call.connect_time}}</p>
+                            </td>
+                            <td>
+
+                                <p style="font-size:14px;">{{call.duration}}</p>
+
+                                                      </td>
+                                    <td>
+
+                                <p style="font-size:14px;">{{call.cost}}</p>
+
+                                                      </td>
+                            <td>
+
+                                <p style="font-size:14px;">Don't want to continue</p>
+
+                                                      </td>
+                        </tr>
+
+
+
+  {% endfor %}
+</tbody>
+                </table>
+                </div>
+</div>
+    </div>
+           <br>
+
+
+
+</div>
+
+
+{% endblock %}

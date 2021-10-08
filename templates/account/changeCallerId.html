@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+    IP Authentication
+{% endblock %}
+{% block content %}
+ <div class="container">
+     {% include 'account/base.html'%}
+<!--shake the body-->
+     <hr>
+    <div class= "" style=" padding:10px; background-color:#0480b3; color:white;border-radius:4px">
+    <p class="text-white m-2" style="font-size:18px">Change Caller ID</p>
+    </div>
+    <div class="row">
+<div class="col-sm-5 col-md-6" style="">
+<br>
+
+
+
+    <ol style="font-size:25px">
+        <li><p style="font-size:25px"><strong>Login with</strong> your Username and SIP Password</p></li>
+        <li><p style="font-size:25px"><strong>Go to</strong> the menu Item <strong>'Phone'</strong></p></li>
+        <li><p style="font-size:25px">Click the pencil icon to edit the <strong>'Caller ID'</strong></p></li>
+        <li> <p style="font-size:25px">Edit the <strong>'Caller ID'</strong> field and click Submit to save. Note:You need to perform these steps only if you use a softphone.</p></li>
+    </ol>
+</div>
+
+    <div class="col-sm-5 offset-sm-2 col-md-6 offset-md-0" style=" margin-left: ">
+        <br>
+
+    <br>
+    <br>
+<iframe width="530" height="350"
+src="https://www.youtube.com/embed/625RVTA8kCU">
+</iframe>
+
+</div>
+</div>
+    <br>
+
+
+
+    <br>
+     {% if user.SIPDomain == '176.9.138.209' %}
+<!--    <a href="https://portal.switch2voip.us/login"><img src="https://switch2voip.us/wp-content/uploads/2020/10/Screen-Shot-2020-10-30-at-11.01.08-AM.png"></a>-->
+    <iframe src="https://dashboard.switch2voip.us"  width="100%" height="500px"> </iframe>
+    {%else%}
+    <br>
+
+
+<!--    <a href="https://www.myaccountcenter.net/account/reseller/english/login.asp" ><img src="https://switch2voip.us/wp-content/uploads/2020/10/Portal-S2V.png"></a>-->
+    <iframe src="https://www.myaccountcenter.net/account/reseller/english/login.asp" width="100%" height="500px"></iframe>
+       {%endif%}
+
+</div>
+
+
+<!--shake the body-->
+
+
+<!-- end shaking-->
+
+
+{% endblock %}

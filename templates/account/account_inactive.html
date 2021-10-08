@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Account Inactive{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class= "" style=" padding:10px; background-color:{%if request.site.domain == 'www.switch2voip.us'%}#007CC7{%else%}#ff3333{%endif%}; color:white;border-radius:4px">
+    <p class="text-white m-2">Edit Profile</p>
+    </div>
+    <p class="alert alert-danger">This account is inactive.</p>
+    <a href="{% url 'users:login_signup' %}" class="btn btn-sm btn-success">log in with another account</a>
+    <a href="https://switch2voip.us/contact-support" class="btn btn-lg btn-success">contact support</a>
+</div>
+
+{% endblock %}

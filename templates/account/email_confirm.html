@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% load account %}
+{% block title %}Confirm E-mail Addresst{% endblock %}
+
+
+{% block content %}
+<style>
+
+input::placeholder{
+
+ font-size:15px;
+ }
+ input{
+ font-size:15px;
+
+ }
+label{
+
+ font-size:17px;
+ }
+ input[type=text]{
+margin:20px;
+ margin-left:0px;
+ margin-top:0px;
+
+placeholder: font-size:13px;
+
+ width:100%;
+ }
+ input[type=email]{
+ margin:20px;
+ margin-left:0px;
+ margin-top:0px;
+
+
+
+ width:100%;
+
+ radius:5px;
+ }input[type=password]{
+
+width:100%;
+
+ }
+
+
+
+
+
+
+</style>
+<div class= "" style="padding:10px; background-color:{%if request.site.domain == 'www.switch2voip.us'%}#007CC7{%else%}#ff3333{%endif%}; color:white;border-radius:4px">
+    <p class="text-white m-2">Confirm Email Address</p>
+    </div>
+
+<div class="container mt-4 border">
+  <div class="m-4">
+    {% if confirmation %}
+    {% user_display confirmation.email_address.user as user_display %}
+    <p>{% with confirmation.email_address.email as email %}Please confirm that <a href="mailto:{{ email }}">{{ email }}</a> is an e-mail address for user {{ user_display }}.{% endwith %}</p>
+    <form method="post" action="{% url 'account_confirm_email' confirmation.key %}">
+    {% csrf_token %}
+        <button type="submit" class="btn btn-sm btn-success">Confirm</button>
+    </form>
+    {% else %}
+    {% url 'account_email' as email_url %}
+    <p>This e-mail confirmation link expired or is invalid. Please <a href="{{ email_url }}">issue a new e-mail confirmation request</a>.</p>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock %}

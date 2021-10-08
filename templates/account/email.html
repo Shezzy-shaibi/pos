@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block title %}E-mail Addresses{% endblock %}
+
+{% block content %}
+<style>
+input::placeholder{
+
+ font-size:15px;
+ }
+ input{
+ font-size:15px;
+
+ }
+label{
+
+ font-size:17px;
+ }
+ input[type=text]{
+margin:20px;
+ margin-left:0px;
+ margin-top:0px;
+
+placeholder: font-size:13px;
+
+ width:100%;
+ }
+ input[type=email]{
+ margin:20px;
+ margin-left:0px;
+ margin-top:0px;
+
+
+
+ width:100%;
+
+ radius:5px;
+ }input[type=password]{
+
+width:100%;
+
+ }
+
+
+
+
+</style>
+<div class="container">
+    <div class= "" style="padding:10px; background-color:{%if request.site.domain == 'www.switch2voip.us'%}#007CC7{%else%}#ff3333{%endif%}; color:white;border-radius:4px">
+    <p class="text-white m-2">Email Addresses</p>
+    </div>
+    {% if messages %}
+    <ul class="messages list-unstyled mt-4">
+        {% for message in messages %}
+        <li class="alert {{ message.tags }} messages">{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <div class="mt-4 border">
+      <div class="m-3">
+    {% if user.emailaddress_set.all %}
+    <p>The following e-mail addresses are associated with your account:</p>
+    <form action="{% url 'account_email' %}" class="email_list" method="post">
+    {% csrf_token %}
+    <fieldset class="blockLabels">
+      {% for emailaddress in user.emailaddress_set.all %}
+    <div class="ctrlHolder">
+          <label for="email_radio_{{forloop.counter}}" class="{% if emailaddress.primary %}primary_email{%endif%}">
+
+          <input id="email_radio_{{forloop.counter}}" type="radio" name="email" {% if emailaddress.primary or user.emailaddress_set.count == 1 %}checked="checked"{%endif %} value="{{emailaddress.email}}"/>
+            {{ emailaddress.email }}
+            {% if emailaddress.verified %}
+            <span class="verified green-text">Verified</span>
+            {% else %}
+            <span class="unverified red-text">Unverified</span>
+            {% endif %}
+              {% if emailaddress.primary %}<span class="primary green-text">Primary</span>{% endif %}
+          </label>
+    </div>
+      {% endfor %}
+    <div class="buttonHolder">
+          <button class="secondaryAction btn btn-sm btn-success" type="submit" name="action_primary">Make Primary</button>
+          <button class="secondaryAction btn btn-sm btn-success" type="submit" name="action_send" >Re-send Verification</button>
+          <button class="primaryAction btn btn-sm btn-danger" type="submit" name="action_remove" >Remove</button>
+    </div>
+    </fieldset>
+    </form>
+    {% else %}
+    <p class="alert alert-warning"><strong>Warning:</strong> You currently do not have any e-mail address set up. You should really add an e-mail address so you can receive notifications, reset your password, etc.</p>
+    {% endif %}
+        <h4 class="h4-responsive mt-4">Add E-mail Address</h4>
+        <form method="post" action="{% url 'account_email' %}" class="add_email myform2">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button name="action_add" type="submit" class="btn btn-lg btn-success">Add E-mail</button>
+            <a href="{% url 'users:account_update' %}" class="btn btn-lg">back</a>
+        </form>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+(function() {
+  var message = "Do you really want to remove the selected e-mail address?";
+  var actions = document.getElementsByName('action_remove');
+  if (actions.length) {
+    actions[0].addEventListener("click", function(e) {
+      if (! confirm(message)) {
+        e.preventDefault();
+      }
+    });
+  }
+})();
+</script>
+
+{% endblock %}

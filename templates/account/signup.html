@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Sign Up{% endblock %}
+{% block content %}
+<style>
+
+input::placeholder{
+
+ font-size:15px;
+ }
+ input{
+ font-size:15px;
+
+ }
+label{
+
+ font-size:17px;
+ }
+ input[type=text]{
+margin:20px;
+ margin-left:0px;
+ margin-top:0px;
+
+placeholder: font-size:13px;
+
+ width:100%;
+ }
+ input[type=email]{
+ margin:20px;
+ margin-left:0px;
+ margin-top:0px;
+
+
+
+ width:100%;
+
+ radius:5px;
+ }input[type=password]{
+
+width:100%;
+
+ }
+
+ input::placeholder{
+
+ font-size:15px;
+ }
+ input{
+ font-size:15px;
+
+ }
+label{
+
+ font-size:17px;
+ }
+ input[type=text]{
+margin:20px;
+ margin-left:0px;
+ margin-top:0px;
+
+placeholder: font-size:13px;
+
+ width:100%;
+ }
+ input[type=email]{
+ margin:20px;
+ margin-left:0px;
+ margin-top:0px;
+
+
+
+ width:100%;
+
+ radius:5px;
+ }input[type=password]{
+
+width:100%;
+
+ }
+
+label.required::after {
+    content: ' *';
+    color: red;
+}
+
+
+</style>
+
+
+<div class="col-12 col-sm-12 col-md-6 col-lg-6 mt-3 ">
+  <br>
+  <br>
+   <p class="h1-responsive   mb-3" style="font-size:25px; {%if request.site.domain == 'www.switch2voip.us'%}color:#007CC7;{%endif%}"><strong>Register</strong></p>
+   <br>
+      {% if form.errors %}
+    {% for field in form %}
+        {% for error in field.errors %}
+            <div class="alert alert-danger">
+                <strong>{{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+        <div class="alert alert-danger">
+            <strong>{{ error|escape }}</strong>
+        </div>
+    {% endfor %}
+{% endif %}
+
+    <div class="border rounded" style="padding:15px;">
+    <form method="post" class="myform p-3" action="/accounts/signup/" style="padding:10px;">
+
+
+      {% csrf_token %}
+
+ <label style="" for="email2">Email *</label>
+        <input required name="email" type="email" placeholder="username or email" id="email2">
+     <br>
+        <br>
+           <label style="" for="password2">Password *</label>
+        <input required class="" name="password1" type="password" placeholder="enter your password" id="password2">
+ <br>
+    <p style="font-size:13px;">Your personal data will be used to support your experience throughout this website, to manage access to your account, and for other purposes described in our <a href="/privacy-policy/" target="_blank">Privacy Policy</a>.</p>
+      <button type="submit" class="mt-3 btn {%if request.site.domain == 'www.switch2voip.us'%}btn-success{%else%}btn-danger{%endif%} btn">Register</button>
+    <p>Have an account? <a href="{% url 'users:login_signup' %}">Login</a></p>
+  </form>
+  </div>
+</div>
+
+{% endblock %}

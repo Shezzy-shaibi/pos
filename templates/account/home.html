@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+    Switch2VoIP Dashboard
+{% endblock %}
+{% block content %}
+ <div class="container">
+     {% include 'account/base.html'%}
+
+    
+
+    <div class="" style=" padding:10px; background-color:#0480b3; color:white;border-radius:4px">
+{% if user.SIPDomain == '91.209.227.98' %}
+     <p style="font-size:18px; color:white" class="m-2" >Login to the portal below to see your balance and access your CDR calls history.
+Important Notice: USA calls must come from a US format CallerID otherwise they will not connect.</p>
+
+        {%else%}
+        <p style="font-size:18px;" class="m-2 text-white">Login to the portal below to see your balance and access your CDR calls history. </p>
+     {%endif%}
+    </div>
+     <br>
+    {% if user.SIPDomain == '91.209.227.98' %}
+<!--    <a href="https://portal.switch2voip.us/login"><img src="https://switch2voip.us/wp-content/uploads/2020/10/Screen-Shot-2020-10-30-at-11.01.08-AM.png"></a>-->
+    <iframe src="https://dashboard.switch2voip.us"  width="100%" height="500px"> </iframe>
+    {%else%}
+    <br>
+
+
+<!--    <a href="https://www.myaccountcenter.net/account/reseller/english/login.asp" ><img src="https://switch2voip.us/wp-content/uploads/2020/10/Portal-S2V.png"></a>-->
+    <iframe src="https://www.myaccountcenter.net/account/reseller/english/login.asp" width="100%" height="500px"></iframe>
+       {%endif%}
+
+
+</div>
+
+<!--shake the body-->
+
+
+
+
+<!-- end shaking-->
+
+{% endblock%}

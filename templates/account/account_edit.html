@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+    Update Account
+{% endblock %}
+{% block content %}
+<style>
+
+
+
+
+
+
+label{
+font-weight:bold;
+color: #696969;
+}
+</style>
+ <div class="container">
+     {%if request.site.domain == 'www.switch2voip.us'%}
+     {% include 'account/base.html'%}
+{%else%}
+      {% include 'berry_account/base.html'%}
+{%endif%}
+
+    <div class= "" style=" padding:10px; background-color:{%if request.site.domain == 'www.switch2voip.us'%}#007CC7{%else%}#ff3333{%endif%}; color:white;border-radius:4px">
+     <p class="  m-2 "><strong>Edit Profile</strong></p>
+    </div>
+
+     <div class="container mt-4" style=" padding:10px; background-color:white; border-radius:4px">
+
+
+
+
+          <form  method="POST" action="">
+            {% csrf_token %}
+              <div class="row">
+                  <div class="col">
+ <label for= "username" style="font-weight:bold">
+				      Username
+				    </label><span  class="required">*</span>
+                   <div id="username" style="color:black" class="mb-4">
+                       {{form.username}}
+                   </div>
+                      <label for= "username" style="font-weight:bold">
+				      {{ form.first_name.label }}
+				    </label><span  class="required">*</span>
+                      <div id="firstname" class="mb-4">
+                  {{ form.first_name }}
+                      </div>
+                       <label for= "username" style="font-weight:bold">
+				      {{ form.address1.label }}
+				    </label><span  class="required">*</span>
+                      <div id="address1" class="mb-4"  >
+                  {{ form.address1 }}
+                      </div>
+                          <label for= "country" style="font-weight:bold">
+				      {{ form.country.label }}
+				    </label><span  class="required">*</span>
+
+                      <div id="country"  class="mb-4  ">
+                  {{ form.country }}
+                      </div>
+                           <label for= "state" style="font-weight:bold">
+				      {{ form.state.label }}
+				    </label><span  class="required">*</span>
+
+                      <div id="state" style="color:black" class="mb-4">
+                  {{ form.state }}
+                      </div>
+                       <label for= "zipcode" style="font-weight:bold">
+				      {{ form.zip_code.label }}
+				    </label><span  class="required">*</span>
+                      <div id="zipcode" class="mb-4">
+                  {{ form.zip_code }}
+                      </div>
+
+                  </div>
+                  <div class="col">
+                       <label for= "email" style="font-weight:bold">
+				      Email
+				    </label><span  class="required">*</span>
+                       <div id="email" class="mb-4">
+                           {{form.email}}
+                      </div>
+
+                       <label for= "last" style="font-weight:bold">
+				      {{ form.last_name.label }}
+				    </label><span  class="required">*</span>
+                       <div id="last" class="mb-4">
+                      {{ form.last_name }}
+                       </div>
+                       <label for= "address2" style="font-weight:bold">
+				      {{ form.address2.label }}
+				    </label><span  class="required">(optional)</span>
+                       <div id="address2" class="mb-4">
+
+                      {{ form.address2 }}
+                       </div>
+                       <label for= "city" style="font-weight:bold">
+				      {{ form.city.label }}
+				    </label><span  class="required">*</span>
+                       <div id="city" class="mb-4">
+                      {{ form.city }}
+                       </div>
+
+                       <label for= "mobile" style="font-weight:bold">
+				      {{ form.mobile_phone.label }}
+
+				    </label><span  class="required">*</span>
+                      <div id="mobile" class="mb-4">
+                      {{ form.mobile_phone }}
+                      </div>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col">
+
+
+                   <button class="btn  btn-lg btn-success " style="width:100%; font-size:18px;  border: none;  font-weight:bold;" type="submit">Save</button>
+
+                  </div>
+                  <div class="col">
+<a class=" btn  btn-lg btn-primary  blue-text" style="width:100%; font-size:18px; border: none;  font-weight:bold;" href="{% url 'account_change_password' %}">Click to Change Password</a></p>
+
+                 </div>
+              </div>
+          </form>
+        </div>
+    </div>
+
+
+
+
+<!--shake the body-->
+
+
+<!-- end shaking-->
+
+
+{% endblock%}

@@ -1,0 +1,459 @@
+
+<style>
+
+
+    /* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: top; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 2% auto; /* 15% from the top and centered */
+  padding: 15px;
+  border: 1px solid #888;
+  border-radius:5px;
+  width: 50%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+
+  font-size: 28px;
+  font-weight: bold;
+  margin-left:95%;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+.m-input{
+border-radius: 5px;
+height:30px;
+width:70%;
+}
+
+.modal-content i {
+    margin-left: -30px;
+    cursor: pointer;
+}
+
+
+
+<!--============ for modal messages ==========-->
+
+
+/* Style all input fields */
+
+
+/* The message box is shown when the user clicks on the password field */
+#messages {
+  display:none;
+  background: #f1f1f1;
+  color: #000;
+  position: relative;
+  padding: 20px;
+  margin-top: 10px;
+}
+
+#messages p {
+  padding: 0px 0px;
+  font-size: 15px;
+}
+
+/* Add a green text color and a checkmark when the requirements are right */
+.valid {
+  color: green;
+}
+
+.valid:before {
+  position: relative;
+  left: -35px;
+
+}
+
+/* Add a red text color and an "x" icon when the requirements are wrong */
+.invalid {
+  color: red;
+}
+
+.invalid:before {
+  position: relative;
+  left: -35px;
+
+}
+
+
+.card1{
+background-color:#0480b3;
+padding:10px;
+
+margin-bottom:20px;
+}
+.card1::p{
+margin-left:10px;
+}
+a{
+color: blue;
+}
+a:hover{
+text-decoration:none;
+}
+.card{
+border: 1px solid blue;
+border-radius:5px;
+padding-bottom:20px;
+}
+.card-title{
+
+font-size:16px;
+font-weight: bold;
+
+}
+#myBtn:hover{
+background-color:green;
+
+}
+
+
+.amount
+{
+
+padding:0px;
+border:2px solid black;
+ width:55%;
+ font-size:14px
+}
+</style>
+
+<div class="container mt-3">
+  {% if messages %}
+  <ul class="messages list-unstyled mt-4">
+      {% for message in messages %}
+      <li class="alert {{ message.tags }} messages">{{ message }}</li>
+      {% endfor %}
+  </ul>
+  {% endif %}
+
+
+    <!--Creates the popup body-->
+
+  <div class="row">
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+
+     <span class="close">&times;</span>
+           <div class="modal-header mt-0">
+           </div>
+
+
+    <form name="ajaxform" id="ajaxform" method="POST">
+    {% csrf_token %}
+        <br>
+    <label for="psw">New SIP Password </label>
+        <br>
+  <input class="m-input" type="password" id="psw" name="password" pattern="(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters and no special characters like space,*,!,#,$,%,&,?,/ etc" required>
+ <input name="email" type="hidden" value="{{user.email}}">
+ <input name="username" type="hidden" value="{{user.username}}">
+
+<br>
+      <br>
+<label for="confirm_password">Confirm SIP Password</label><br>
+  <input class="m-input" type="password" name="confirm_password" id="confirm_password" />
+      <br>
+  <p><small><span id='message'></span></small></p>
+      <br>
+        <input Id="formSubmit" name="submit"  class="btn btn-success" type="submit" value="Submit" style=" padding:9px; font-size:15px; border-radius:3px">
+    </form>
+<div class="modal-footer">
+    <div class="border text-center" ><p> <small><span id='successmessage'></span></small></p></div>
+<div id="result"></div>
+<div id="messages">
+    <p id="letter" class="invalid"><small>A <b>lowercase</b> letter</small></p>
+    <p id="capital" class="invalid"><small>A <b>capital (uppercase)</b> letter </small></p>
+    <p id="number" class="invalid"><small>A <b>number</b></small></p>
+    <p id="length" class="invalid"><small>Minimum <b>8 characters</b></small></p>
+</div>
+
+</div>
+  </div>
+
+</div>
+      <div class="col-sm-12 col-md-3 col-lg-2 mt-3 " >
+        <div class="card" style=" ">
+            <div class="card1" style="padding:10px;">
+              <p style="" class="card-title text-white my-1 ">My Account</p>
+        </div>
+              <ul  class="list-unstyled form-check">
+                <li><a style="text-decoration:none;"  href="{%url 'users:user_profile'%}">Dashboard</a></li>
+                <li><a style="text-decoration:none;" href="{%url 'users:user_orders'%}">Orders</a></li>
+                 <li><a style="text-decoration:none;" href="{% url 'users:account_update' %}">Edit Profile</a></li>
+<!--               {% if user.SIPDomain == '176.9.138.209' %}-->
+
+              <li><a style="text-decoration:none;" href="{% url 'users:callshistory' %}">Calls History</a></li>
+
+<!--                  {%endif%}-->
+                   <li><a style="text-decoration:none;" href="{% url 'users:authorizeIP' %}">Authorize IP</a></li>
+                <li><a style="text-decoration:none;" href="{% url 'account_logout' %}">Logout</a></li>
+              </ul>
+        </div>
+      </div>
+ 
+      <div class="  col-sm-12 col-md-4 col-lg-3 mt-3  mb-3" >
+        <div class=" target card " style="padding-bottom:5px;">
+            <div class="card1 ">
+ 
+
+            <p class="card-title my-1 text-white">Your Balance</p>
+
+                </div>
+            <div class="card-body" style="margin-top:-15px">
+                  {% if sippy_server_return_an_error %}
+                    <p class="font-weight-bold"><span style="font-size:30px;">⚠️</span>oops an error occurred. please try again later</p>
+                {% elif not sippy_username_not_found %}
+                    <p class="font-weight-bold" style="font-size:30px;margin-bottom:-10px">US${{ user_sippy_balance }}</p>
+                {% endif %}
+                <p class="mb-2 " style="font-size:14px; "><strong>Add funds here:</strong></p>
+              <form style="padding:0px">
+               <p style="padding:0px"><input  style="padding:0px;border:2px solid black;width:55%;font-size:14px" class="amount" title="Please enter amount greater than or equal to 10$ " type="number" name="amount" min="10.00" step="0.01"   placeholder=" Enter Amount">
+
+                  {% csrf_token %}
+
+                  <input class="btn btn-success " type="submit" name="submit" style="border-radius:3px; margin-right:3px;  " value="Recharge" formaction="{% url 'users:order_placed_recharge' %}" formmethod="post" > </p>
+
+              </form>
+            </div>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-4 col-lg-4 mt-3">
+        <div class="card ">
+             <div class="card1 ">
+              <p class="card-title  my-1 text-white">VICIdial/GOautodial/PBX Settings</p>
+             </div>
+              <ul class="list-unstyled form-check">
+                  <li><span class="font-weight-bold">Username:</span>{% if user_sippy_balance > 0 %} {{user.username}} {% else %} <a class="shake" style="color:blue" >Click here to add funds</a>{% endif %}</li>
+             <li><span class="font-weight-bold">SIP Password: </span> **** {% if user_sippy_balance > 0 %} <button class="btn btn-success" id="myBtn" style="border-radius:3px; background-color:#5bd700">Change SIP Password</button>{% endif %}
+<!--             <li><span class="font-weight-bold">SIP Password: </span> ****  <button class="btn btn-success" id="myBtn" style="border-radius:3px; background-color:#5bd700">Change SIP Password</button>-->
+
+</li>
+
+
+                <li><span class="font-weight-bold">SIP Domain: </span> {{user.SIPDomain}}</li>
+                <li><a href="https://switch2voip.us/setup-sip-trunk-carrier-provider-vicidial-goautodial">Instructions settings</a></li>
+              </ul>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-4 col-lg-3 mt-3">
+        <div class="card ">
+             <div class="card1 ">
+              <p class="card-title my-1 text-wuyhite">Xlite/Zoiper Settings</p>
+             </div>
+              <ul class="list-unstyled form-check">
+                 <li><span class="font-weight-bold">Username:</span>{% if user_sippy_balance > 0 %} {{user.username}} {% else %} <a class="shake" style="color:blue" >Click here to add funds</a>{% endif %}</li>
+                <li><span class="font-weight-bold">SIP Password:</span> **********</li>
+                <li><span class="font-weight-bold">SIP Domain:</span> {{user.SIPDomain}}</li>
+                <li><a href="https://switch2voip.us/setup-sip-trunk-carrier-provider-vicidial-goautodial">Instructions settings</a></li>
+              </ul>
+
+
+        </div>
+      </div>
+  </div>
+<br>
+</div>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+
+<script>
+ // Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on the button, open the modal
+btn.onclick = function() {
+  modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+.onclick = function() {
+  modal.style.display = "none";
+}
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+</script>
+<script>
+    $('#psw, #confirm_password').on('keyup', function () {
+  if ($('#psw').val() == $('#confirm_password').val()) {
+    $('#message').html('Matching').css('color', 'green');
+
+
+
+  } else
+    $('#message').html('Not Matching').css('color', 'red');
+});
+
+</script>
+
+<script>
+var myInput = document.getElementById("psw");
+var letter = document.getElementById("letter");
+var capital = document.getElementById("capital");
+var number = document.getElementById("number");
+var length = document.getElementById("length");
+
+// When the user clicks on the password field, show the message box
+myInput.onfocus = function() {
+  document.getElementById("messages").style.display = "block";
+}
+
+// When the user clicks outside of the password field, hide the message box
+myInput.onblur = function() {
+  document.getElementById("messages").style.display = "none";
+}
+
+// When the user starts to type something inside the password field
+myInput.onkeyup = function() {
+  // Validate lowercase letters
+  var lowerCaseLetters = /[a-z]/g;
+  if(myInput.value.match(lowerCaseLetters)) {
+    letter.classList.remove("invalid");
+    letter.classList.add("valid");
+  } else {
+    letter.classList.remove("valid");
+    letter.classList.add("invalid");
+  }
+
+  // Validate capital letters
+  var upperCaseLetters = /[A-Z]/g;
+  if(myInput.value.match(upperCaseLetters)) {
+    capital.classList.remove("invalid");
+    capital.classList.add("valid");
+  } else {
+    capital.classList.remove("valid");
+    capital.classList.add("invalid");
+  }
+
+  // Validate numbers
+  var numbers = /[0-9]/g;
+  if(myInput.value.match(numbers)) {
+    number.classList.remove("invalid");
+    number.classList.add("valid");
+  } else {
+    number.classList.remove("valid");
+    number.classList.add("invalid");
+  }
+$("#psw").keypress(function(event) {
+    var character = String.fromCharCode(event.keyCode);
+    return isValid(character);
+});
+
+function isValid(str) {
+    return !/[~`!@#$%\^&*()+=\-\[\]\\';,/{}|\\":<>\?]/g.test(str);
+}
+  // Validate length
+  if(myInput.value.length >= 8) {
+    length.classList.remove("invalid");
+    length.classList.add("valid");
+  } else {
+    length.classList.remove("valid");
+    length.classList.add("invalid");
+  }
+}
+</script>
+
+<script>
+
+    $('.shake').click(function() {
+  shake($('.target'));
+});
+
+function shake(thing) {
+  var interval = 100;
+  var distance = 10;
+  var times = 5;
+
+  for (var i = 0; i < (times + 1); i++) {
+    $(thing).animate({
+      left:
+        (i % 2 == 0 ? distance : distance * -1)
+    }, interval);
+  }
+  $(thing).animate({
+    left: 0,
+    top: 0
+  }, interval);
+}
+
+</script>
+
+<!-- AJAX-->
+<script>
+    $("#ajaxform").submit(function(){
+    var formData = new FormData($(this)[0]);
+
+    $.ajax({
+        url:"{%url 'users:changeSIPpassword' %}",
+        type:'POST',
+        data:formData,
+        processData: false,
+        contentType: false,
+        success: successFunction,
+        error:function(){
+            alert("error");
+        }
+
+
+    });
+     function successFunction(msg){
+     if (msg.message === 'success'){
+
+      $('#successmessage').html('The new SIP password has been submitted. You will receive an email with the password change confirmation within a few minutes.').css('color', 'green');
+       document.ajaxform.submit.value = 'Close';
+       document.ajaxform.submit.style = 'background-color:grey; font-size:15px ';
+     }
+     }
+    return false;
+});
+</script>
+
+

@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+    IP Authentication
+{% endblock %}
+{% block content %}
+ <div class="container">
+
+         {%if request.site.domain == 'www.switch2voip.us'%}
+     {% include 'account/base.html'%}
+{%else%}
+      {% include 'berry_account/base.html'%}
+{%endif%}
+
+    <div class="" style=" padding:10px;   background-color:{%if request.site.domain == 'www.switch2voip.us'%}#0480b3{%else%}#ff3333{%endif%}; color:white;border-radius:4px">
+         <p style="font-size:18px;" class="m-2 text-white" >IP Authentication
+ </p>
+
+    </div>
+<br>
+{%if user_sippy_balance == 0 %}
+<div align="center" class="m-1 pt-3 text-white text-center bg-danger error_msg border" style="border-radius:5px; max-width:60%; ">
+  <p><strong>Add credit to your account and then authenticate your IP and start making calls</strong></p>
+  </div>
+{%endif%}
+         <div class="input-group control-group after-add-more">
+            <div class="input-group-btn" style="margin-left:87%; border-radius:5px" >
+                <div class="container-fluid" >
+            <button class="btn btn-success add-more"  type="button"><i class="glyphicon glyphicon-plus"></i>Add More Ip's</button>
+                </div>
+          </div>
+        </div>
+
+
+            <form id="form1" name="form1" method="post" action="{%url 'users:IPsubmit'%}">
+    {% csrf_token %}
+
+
+ <table  class="table text-center " style="padding:0px; font-size:16px; border-radius:3px;">
+
+                    <thead class="thead-light">
+                        <tr style="font-size:16px;">
+                            <th  scope="col"><p class="h4"><strong>IP</strong></p></th>
+                            <th scope="col"><p class="h4"><strong>Date</strong></p></th>
+                            <th scope="col"><p class="h4"><strong>Status</strong></p></th>
+                            <th scope="col"><p class="h4"><strong>Action</strong></p></th>
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+         <tr class="ipshow" style="display:none; ">
+             <td>
+                   <input type="text" name="addmore" required  style="font-size:14px;" class="form-control " placeholder="New IP"  minlength="7" maxlength="15" size="15"  pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" title="Please enter a valid IP">
+
+
+              </td>
+             <td style="font-size:14px;">  {% now "" %}</td>
+             <td style="font-size:14px;"> None
+              <input type="hidden" name="message" required pattern="/^[a-z0-9()\/\':\*+|,.; \- !?&#$@]{2,75}$/i"  style="font-size:14px;" class="form-control " value="{{user.username}} Added New IP" placeholder="New IP"  >
+                  <input type="hidden" name="message_email" required pattern="/^[^@\s]+@([-a-z0-9]+\.)+[a-z]{2,}$/i"  style="font-size:14px;" class="form-control" value="{{request.user.email}}" placeholder="Enter your email"  >
+
+                   </td>
+
+             <td>
+                 <p >
+                 <button class="btn btn-danger remove" style=" " type="button"><i class="glyphicon glyphicon-remove"></i>Cancel</button>
+                 <input class="btn btn-success " id="IPsubmit" type="submit" name="submit1" value="Add">
+                 </p>
+             </td>
+         </tr>
+
+                    {% for userip in userips %}
+                    <tr style="font-size:16px;">
+
+                            <td style="font-size:14px;">
+                               <input style="font-size:14px;" name="ip"  readonly  class="form-control " value="{{userip.IP}}">
+                                  </td>
+                              <td>
+
+                                  <p style="font-size:14px;">{{userip.Time_stamp}}</p>
+                              </td>
+                        <td>
+
+                                  <p style="font-size:14px;">{{userip.status}}</p>
+                              </td>
+
+                            <td>
+                                 <a href="{%url 'users:IPdelete'  userip.id%}" class="btn btn-danger remove" >Delete</a>
+
+
+                            <div id="delete_modal" class="modal delete_modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+
+     <span class="close delete_close">&times;</span>
+           <div class="modal-header mt-0 ">
+
+           </div>
+      <p class="h5 m-4 text-center"><strong>{{user.username}} did you really want to delete the <mark>{{userip.IP}}</mark> you added at <mark>{{userip.Time_stamp}}</mark> </strong></p>
+              <p> <a href="{%url 'users:IPdelete'  userip.id%}" class="btn btn-danger remove m-3" >Delete</a>
+                  <button id="delete_close" class="btn btn-success delete_close m-3">cancel</button></p>
+
+<div class="modal-footer">
+
+
+</div>
+  </div>
+
+
+
+
+
+</div>
+
+                            </td>
+                    </tr>
+                    </tbody>
+                    {% endfor %}
+
+
+
+
+
+
+
+ </table>
+                       </form>
+<hr>
+
+<!--    <br>-->
+<!--     {% if user.SIPDomain == '176.9.138.209' %}-->
+<!--&lt;!&ndash;    <a href="https://portal.switch2voip.us/login"><img src="https://switch2voip.us/wp-content/uploads/2020/10/Screen-Shot-2020-10-30-at-11.01.08-AM.png"></a>&ndash;&gt;-->
+<!--    <iframe src="https://dashboard.switch2voip.us"  width="100%" height="500px"> </iframe>-->
+<!--    {%else%}-->
+<!--    <br>-->
+
+
+<!--&lt;!&ndash;    <a href="https://www.myaccountcenter.net/account/reseller/english/login.asp" ><img src="https://switch2voip.us/wp-content/uploads/2020/10/Portal-S2V.png"></a>&ndash;&gt;-->
+<!--    <iframe src="https://www.myaccountcenter.net/account/reseller/english/login.asp" width="100%" height="500px"></iframe>-->
+<!--       {%endif%}-->
+
+
+</div>
+
+<!-- Button trigger Delete IP modal -->
+
+<!--shake the body-->
+
+
+<!-- end shaking-->
+
+
+
+<!--add remove-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<!--Start of Tawk.to Script-->
+
+<script type="text/javascript">
+
+
+    $(document).ready(function() {
+
+
+      $(".add-more").click(function(){
+
+      if ( {{user_sippy_balance}} ) > 0{
+          $(".ipshow").show();
+        }
+      else{
+          $(".error_msg").show();
+        }
+
+      });
+
+
+      $("body").on("click",".remove",function(){
+          $(this).parents(".ipshow").hide();
+      });
+
+
+    });
+
+
+
+</script>
+
+{% endblock%}
